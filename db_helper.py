@@ -1,7 +1,5 @@
 import psycopg2
 import os
-from psycopg2 import Error
-from pymongo import MongoClient
 
 DB_HOST = os.environ["DB_HOST"]
 DB_PORT = os.environ["DB_PORT"]
@@ -104,7 +102,7 @@ class GroupsDao(PostgreSQLHelper):
                           course INT NOT NULL,
                           code TEXT NOT NULL,
                           education_level TEXT NOT NULL,
-                          institute_id TEXT NOT NULL
+                          institute_id INT NOT NULL
                           );'''
         cursor = self.connection.cursor()
         cursor.execute(query)
