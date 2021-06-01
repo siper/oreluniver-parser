@@ -42,7 +42,12 @@ def parse_all():
 
     for b in get_buildings():
         building_id = next(b_it)
-        building = OrderedDict(id=building_id, title=b["title"], address=b["address"], latitude=b["coord"][0], longitude=b["coord"][1], img=b["img"])
+        building = OrderedDict(id=building_id,
+                               title=b["title"],
+                               address=b["address"],
+                               latitude=b["coord"][0],
+                               longitude=b["coord"][1],
+                               img=b["img"])
         buildings.append(building)
 
         print("Added building with id {}".format(building_id))
