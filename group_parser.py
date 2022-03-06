@@ -52,6 +52,8 @@ def parse_all():
     with db_helper.GroupsDao() as dao:
         dao.put_groups(groups)
 
+    print("All done")
+
 
 if __name__ == "__main__":
     parse_all()

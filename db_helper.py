@@ -148,15 +148,16 @@ class TeachersDao(PostgreSQLHelper):
 
         cursor = self.connection.cursor()
         for teacher in teachers:
-            query = '''INSERT INTO teachers (id, name, surname, patronymic, photo, chair_id) 
-                               VALUES ({}, '{}', '{}', '{}', '{}', {}) 
-                               ON CONFLICT (id) DO NOTHING;'''.format(teacher["id"],
+            cursor.execute(
+                """INSERT INTO teachers (id, name, surname, patronymic, photo, chair_id) 
+                               VALUES (%s, %s, %s, %s, %s, %s) 
+                               ON CONFLICT (id) DO NOTHING;""", (teacher["id"],
                                                                       teacher["name"],
                                                                       teacher["surname"],
                                                                       teacher["patronymic"],
                                                                       teacher["photo"],
                                                                       teacher["chair_id"])
-            cursor.execute(query)
+            )
         self.connection.commit()
 
 

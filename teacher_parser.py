@@ -46,7 +46,7 @@ def get_teachers(chair_id):
     result = []
     for e in json_reader:
         res = OrderedDict(id=int(e["employee_id"]),
-                          photo=get_photo(e["employee_id"]).strip(),
+                          photo=get_photo(e["employee_id"]),
                           name=e["Name"].strip(),
                           surname=e["Family"].strip(),
                           patronymic=e["SecondName"].strip(),
@@ -60,18 +60,17 @@ def get_photo(teacher_id):
     soup = BeautifulSoup(r.text, 'html.parser')
     fphoto = soup.find(class_="img-circle")
     if fphoto is None:
-        return ""
+        return None
     photo = fphoto["src"]
     if len(photo) == 0:
-        return ""
+        return None
     if photo.startswith("http"):
-        return photo
+        return photo.strip()
     else:
-        return "http://oreluniver.ru" + photo
+        return ("http://oreluniver.ru" + photo).strip()
 
 
 def cache_into_db():
-    requests.post("https://nosnch.in/c15c01bfe3", data={"m": "Started parse teachers"})
     teachers = []
     chairs = []
     institutes = get_institutes()
@@ -98,7 +97,7 @@ def cache_into_db():
     with db_helper.InstitutesDao() as dao:
         dao.put_institutes(institutes)
 
-    requests.post("https://nosnch.in/c15c01bfe3", data={"m": "Endded parse teachers"})
+    print("All done")
 
 
 if __name__ == "__main__":

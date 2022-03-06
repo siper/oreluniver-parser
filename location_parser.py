@@ -17,7 +17,7 @@ class Iterator:
 
 def get_buildings():
     r = requests.get("http://oreluniver.ru/assets/js/buildings.json")
-    j = json.loads(r.text)
+    j = json.loads(r.text.lstrip('\ufeff'))
     print(j["corpusData"])
     return j["corpusData"]
 
@@ -63,6 +63,8 @@ def parse_all():
 
     with db_helper.BuildingsDao() as dao:
         dao.put_buildings(buildings)
+
+    print("All done")
 
 
 if __name__ == "__main__":
